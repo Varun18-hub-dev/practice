@@ -4,8 +4,7 @@ Checks the downloaded model files against Varun's copies.
     python verify_downloads.py --models C:\\models
 
 BGE: every file must match the SHA-256 in PIN.json (BAAI/bge-small-en-v1.5 at revision 5c38ec7c).
-Qwen GGUF: must be exactly 2,104,932,768 bytes; its SHA-256 is printed so it can be compared with
-the hash Varun's machine prints (tools/check_gpu_setup.py prints it too).
+Qwen GGUF: must be exactly 2,104,932,768 bytes and have the same SHA-256 as Varun's copy.
 """
 import argparse
 import hashlib
@@ -16,6 +15,7 @@ import sys
 
 GGUF_NAME = "qwen2.5-3b-instruct-q4_k_m.gguf"
 GGUF_BYTES = 2104932768
+GGUF_SHA256 = "626b4a6678b86442240e33df819e00132d3ba7dddfe1cdc4fbb18e0a9615c62d"  # Varun's copy
 
 
 def sha256(path):
@@ -55,7 +55,10 @@ def main():
         size = os.path.getsize(g)
         print(f"[qwen] size {size} ({'ok' if size == GGUF_BYTES else 'DIFFERENT from Varun: ' + str(GGUF_BYTES)})")
         ok &= size == GGUF_BYTES
-        print(f"[qwen] sha256 {sha256(g)}  <- send this to Varun to compare")
+        digest = sha256(g)
+        same = digest == GGUF_SHA256
+        print(f"[qwen] sha256 {digest} ({'matches Varun' if same else 'DIFFERENT from Varun'})")
+        ok &= same
     print("ALL OK" if ok else "SOMETHING DIFFERS, do not start the runs")
     sys.exit(0 if ok else 1)
 

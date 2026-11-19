@@ -10,8 +10,8 @@ cd handoff
 powershell -ExecutionPolicy Bypass -File .\download_models.ps1
 ```
 
-It ends with `ALL OK` and prints the Qwen file's SHA-256. **Send that hash to Varun.** It must match
-his copy before any run counts. If it says `SOMETHING DIFFERS`, stop and tell him.
+It ends with `ALL OK` when every file matches Varun's copies exactly, including the Qwen file's
+SHA-256. If it says `SOMETHING DIFFERS`, stop and tell him.
 
 Afterwards `C:\models` contains:
 - `qwen2.5-3b-instruct-q4_k_m.gguf`
