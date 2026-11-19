@@ -2,7 +2,7 @@
 # Run in PowerShell from this folder:   powershell -ExecutionPolicy Bypass -File .\download_models.ps1
 $ErrorActionPreference = "Stop"
 New-Item -ItemType Directory -Force C:\models | Out-Null
-pip install -q "huggingface_hub>=0.23"
+pip install -q "huggingface_hub>=0.23,<1.0"
 
 # Qwen2.5-3B-Instruct, GGUF Q4_K_M (official Qwen repository)
 huggingface-cli download Qwen/Qwen2.5-3B-Instruct-GGUF qwen2.5-3b-instruct-q4_k_m.gguf --local-dir C:\models
